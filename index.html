@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoTracker - AI-Powered Sustainability Platform</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            background: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #e5e7eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #10b981;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .cta-button {
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(16, 185, 129, 0.1) 0%, rgba(10, 10, 10, 1) 70%);
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-text p {
+            font-size: 1.25rem;
+            color: #d1d5db;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: 2px solid #10b981;
+            border-radius: 50px;
+            color: #10b981;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: #10b981;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .hero-visual {
+            position: relative;
+            height: 500px;
+        }
+
+        #hero-canvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 0;
+            background: linear-gradient(135deg, #111827, #1f2937);
+        }
+
+        .features h2 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #ffffff;
+        }
+
+        .feature-card p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        /* Demo Dashboard */
+        .dashboard {
+            padding: 6rem 0;
+            background: #0a0a0a;
+        }
+
+        .dashboard h2 {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 4rem;
+            background: linear-gradient(135deg, #ffffff, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .dashboard-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .dashboard-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: 2px solid rgba(59, 130, 246, 0.3);
+            border-radius: 50px;
+            color: #d1d5db;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            border-color: #3b82f6;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #10b981;
+        }
+
+        .stat-label {
+            color: #d1d5db;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* AI Assistant */
+        .ai-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 350px;
+            height: 500px;
+            background: rgba(10, 10, 10, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            display: none;
+            flex-direction: column;
+            z-index: 1000;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .ai-assistant.open {
+            display: flex;
+        }
+
+        .ai-header {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            color: white;
+            padding: 1rem;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .ai-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            margin-left: auto;
+            color: white;
+        }
+
+        .message.ai {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #d1d5db;
+        }
+
+        .ai-input {
+            display: flex;
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+
+        .ai-input input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem;
+            color: white;
+            outline: none;
+        }
+
+        .ai-input button {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+
+        .ai-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ai-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-visual {
+                order: -1;
+                height: 300px;
+            }
+
+            .hero-buttons {
+                justify-content: center;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .ai-assistant {
+                width: calc(100vw - 2rem);
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .ai-toggle {
+                right: 1rem;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.5;
+            }
+        }
+
+        .animate-pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Scroll animations */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.6s ease;
+        }
+
+        .scroll-animate.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-leaf" style="margin-right: 0.5rem;"></i>
+                EcoTracker
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#features" class="nav-link">Features</a></li>
+                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#" class="cta-button">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text animate-fade-in-up">
+                    <h1>Track Your Impact.<br>Change Your World.</h1>
+                    <p>The world's first AI-powered sustainability platform with autonomous agents that help you reduce your carbon footprint through personalized coaching and community challenges.</p>
+                    <div class="hero-buttons">
+                        <a href="#dashboard" class="btn-primary">Try Demo</a>
+                        <a href="#features" class="btn-secondary">Learn More</a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <canvas id="hero-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features scroll-animate">
+        <div class="container">
+            <h2>Revolutionary Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Agentic AI Assistant</h3>
+                    <p>Multi-agent AI system that autonomously plans, analyzes, and optimizes your sustainability journey with natural conversation.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Carbon Tracking</h3>
+                    <p>Track your carbon footprint across transport, energy, food, and waste with precise calculations and beautiful visualizations.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Goal Setting</h3>
+                    <p>AI-powered goal optimization that adapts to your lifestyle and provides achievable sustainability targets.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Community Challenges</h3>
+                    <p>Join gamified sustainability challenges, compete with friends, and earn rewards for eco-friendly actions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Behavioral Analysis</h3>
+                    <p>Advanced pattern recognition identifies opportunities for improvement and predicts future sustainability behaviors.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌍</div>
+                    <h3>Impact Visualization</h3>
+                    <p>See your real-world environmental impact through interactive maps, trends, and comparative analytics.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Dashboard -->
+    <section id="dashboard" class="dashboard scroll-animate">
+        <div class="container">
+            <h2>Interactive Demo Dashboard</h2>
+            <div class="dashboard-container">
+                <div class="dashboard-tabs">
+                    <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+                    <button class="tab-button" onclick="switchTab('carbon')">Carbon Tracking</button>
+                    <button class="tab-button" onclick="switchTab('challenges')">Challenges</button>
+                    <button class="tab-button" onclick="switchTab('ai')">AI Insights</button>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-content active">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number" id="total-carbon">4.2</div>
+                            <div class="stat-label">Total CO2 (tons/month)</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="reduction">23%</div>
+                            <div class="stat-label">Carbon Reduction</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="rank">156</div>
+                            <div class="stat-label">Global Rank</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number" id="points">1,847</div>
+                            <div class="stat-label">Eco Points</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="overview-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Carbon Tracking Tab -->
+                <div id="carbon" class="tab-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-number">1.2</div>
+                            <div class="stat-label">Transport CO2</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">1.8</div>
+                            <div class="stat-label">Energy CO2</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0.9</div>
+                            <div class="stat-label">Food CO2</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">0.3</div>
+                            <div class="stat-label">Waste CO2</div>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="carbon-chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Challenges Tab -->
+                <div id="challenges" class="tab-content">
+                    <div class="challenge-list" style="color: #d1d5db;">
+                        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                            <h4>🚲 Bike to Work Challenge</h4>
+                            <p>Use bike or walk for commute 3 days this week</p>
+                            <div style="background: rgba(16, 185, 129, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
+                                <div style="background: #10b981; height: 100%; width: 60%; border-radius: 10px;"></div>
+                            </div>
+                            <small>Progress: 60% (3/5 days)</small>
+                        </div>
+                        <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                            <h4>💡 Energy Saver Week</h4>
+                            <p>Reduce electricity usage by 20%</p>
+                            <div style="background: rgba(59, 130, 246, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
+                                <div style="background: #3b82f6; height: 100%; width: 85%; border-radius: 10px;"></div>
+                            </div>
+                            <small>Progress: 85% (17% reduction achieved)</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Insights Tab -->
+                <div id="ai" class="tab-content">
+                    <div style="color: #d1d5db;">
+                        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <h4>🧠 AI Sustainability Advisor</h4>
+                            <p><strong>Today's Insight:</strong> Your transport emissions are 30% lower this week! The AI suggests maintaining this pattern by using public transport on rainy days instead of driving.</p>
+                        </div>
+                        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                            <h4>🎯 Carbon Optimizer</h4>
+                            <p><strong>Recommendation:</strong> Switch to renewable energy plan. Estimated savings: 2.1 tons CO2/year. The AI has found 3 local providers with competitive rates.</p>
+                        </div>
+                        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 15px; padding: 1.5rem;">
+                            <h4>📈 Behavior Analyst</h4>
+                            <p><strong>Pattern Alert:</strong> Your weekend energy usage spikes by 40%. The AI suggests automated smart home scheduling to optimize consumption.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Assistant Toggle -->
+    <button class="ai-toggle" onclick="toggleAI()">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <!-- AI Assistant Chat -->
+    <div class="ai-assistant" id="ai-assistant">
+        <div class="ai-header">
+            <div>
+                <strong>🤖 EcoAI Assistant</strong>
+                <div style="font-size: 0.8rem; opacity: 0.8;">Powered by Agentic AI</div>
+            </div>
+            <button onclick="toggleAI()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
+        </div>
+        <div class="ai-messages" id="ai-messages">
+            <div class="message ai">
+                Hello! I'm your AI sustainability coach. I can help you track your carbon footprint, create personalized plans, and find eco-friendly alternatives. What would you like to know?
+            </div>
+        </div>
+        <div class="ai-input">
+            <input type="text" id="ai-input-field" placeholder="Ask about sustainability..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        let overviewChart, carbonChart;
+        let aiResponses = [
+            "Based on your data, switching to public transport 3 days a week could reduce your carbon footprint by 18%.",
+            "Great question! I recommend starting with energy-efficient appliances. They can cut your home emissions by 25%.",
+            "Your carbon footprint is improving! You've reduced emissions by 15% this month through better transport choices.",
+            "I've analyzed your patterns and suggest meal prepping to reduce food waste. This could save 0.3 tons CO2/year.",
+            "Excellent progress on the bike challenge! The AI predicts you'll exceed your target by 20% this month.",
+            "Consider installing LED lights. Based on your usage patterns, you could save 200kg CO2 annually.",
+            "Your community ranking improved to #156! The behavior analyst suggests focusing on weekend energy usage next."
+        ];
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initCharts();
+            initThreeJS();
+            setupScrollAnimations();
+            animateStats();
+        });
+
+        // Three.js Hero Animation
+        function initThreeJS() {
+            const canvas = document.getElementById('hero-canvas');
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
+            const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+            
+            renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+            renderer.setClearColor(0x000000, 0);
+
+            // Create animated particles representing CO2 reduction
+            const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+            const material = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.7 });
+            const particles = [];
+
+            for (let i = 0; i < 50; i++) {
+                const particle = new THREE.Mesh(geometry, material);
+                particle.position.x = (Math.random() - 0.5) * 10;
+                particle.position.y = (Math.random() - 0.5) * 10;
+                particle.position.z = (Math.random() - 0.5) * 10;
+                scene.add(particle);
+                particles.push(particle);
+            }
+
+            camera.position.z = 5;
+
+            function animate() {
+                requestAnimationFrame(animate);
+
+                particles.forEach((particle, index) => {
+                    particle.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
+                    particle.position.x += Math.cos(Date.now() * 0.001 + index) * 0.005;
+                    particle.rotation.x += 0.01;
+                    particle.rotation.y += 0.01;
+                });
+
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Handle resize
+            window.addEventListener('resize', () => {
+                camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+            });
+        }
+
+        // Initialize Charts
+        function initCharts() {
+            // Overview Chart
+            const overviewCtx = document.getElementById('overview-chart').getContext('2d');
+            overviewChart = new Chart(overviewCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                    datasets: [{
+                        label: 'Carbon Footprint (tons)',
+                        data: [6.2, 5.8, 5.4, 4.9, 4.5, 4.2],
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { labels: { color: '#d1d5db' } }
+                    },
+                    scales: {
+                        x: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(209, 213, 219, 0.1)' } },
+                        y: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(209, 213, 219, 0.1)' } }
+                    }
+                }
+            });
+
+            // Carbon Chart
+            const carbonCtx = document.getElementById('carbon-chart').getContext('2d');
+            carbonChart = new Chart(carbonCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Transport', 'Energy', 'Food', 'Waste'],
+                    datasets: [{
+                        data: [1.2, 1.8, 0.9, 0.3],
+                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            labels: { color: '#d1d5db' },
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+
+            // Update charts if needed
+            if (tabName === 'overview' && overviewChart) {
+                setTimeout(() => overviewChart.update(), 100);
+            } else if (tabName === 'carbon' && carbonChart) {
+                setTimeout(() => carbonChart.update(), 100);
+            }
+        }
+
+        // AI Assistant Functions
+        function toggleAI() {
+            const assistant = document.getElementById('ai-assistant');
+            const toggle = document.querySelector('.ai-toggle');
+            
+            if (assistant.classList.contains('open')) {
+                assistant.classList.remove('open');
+                toggle.style.display = 'block';
+            } else {
+                assistant.classList.add('open');
+                toggle.style.display = 'none';
+            }
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('ai-input-field');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user');
+            input.value = '';
+
+            // Simulate AI thinking
+            setTimeout(() => {
+                addTypingIndicator();
+                
+                setTimeout(() => {
+                    removeTypingIndicator();
+                    const response = getAIResponse(message);
+                    addMessage(response, 'ai');
+                }, 2000);
+            }, 500);
+        }
+
+        function addMessage(text, sender) {
+            const messagesContainer = document.getElementById('ai-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${sender}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function addTypingIndicator() {
+            const messagesContainer = document.getElementById('ai-messages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message ai typing-indicator';
+            typingDiv.innerHTML = '<div class="animate-pulse">AI is thinking...</div>';
+            typingDiv.id = 'typing-indicator';
+            messagesContainer.appendChild(typingDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typing-indicator');
+            if (indicator) indicator.remove();
+        }
+
+        function getAIResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('carbon') || lowerMessage.includes('footprint')) {
+                return aiResponses[0];
+            } else if (lowerMessage.includes('energy') || lowerMessage.includes('electricity')) {
+                return aiResponses[1];
+            } else if (lowerMessage.includes('transport') || lowerMessage.includes('travel')) {
+                return aiResponses[2];
+            } else if (lowerMessage.includes('food') || lowerMessage.includes('diet')) {
+                return aiResponses[3];
+            } else if (lowerMessage.includes('challenge')) {
+                return aiResponses[4];
+            } else if (lowerMessage.includes('recommendation') || lowerMessage.includes('suggest')) {
+                return aiResponses[5];
+            } else {
+                return aiResponses[Math.floor(Math.random() * aiResponses.length)];
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // Scroll Animations
+        function setupScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.scroll-animate').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Animate Statistics
+        function animateStats() {
+            const animateValue = (element, start, end, duration, suffix = '') => {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const current = progress * (end - start) + start;
+                    element.textContent = Math.floor(current) + suffix;
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            };
+
+            // Animate stats when they come into view
+            const statsObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const element = entry.target;
+                        const finalValue = parseFloat(element.textContent);
+                        const suffix = element.textContent.includes('%') ? '%' : '';
+                        animateValue(element, 0, finalValue, 2000, suffix);
+                        statsObserver.unobserve(element);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.stat-number').forEach(stat => {
+                statsObserver.observe(stat);
+            });
+        }
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Update navbar on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+            }
+        });
+
+        // Simulated real-time updates
+        setInterval(() => {
+            const totalCarbon = document.getElementById('total-carbon');
+            const currentValue = parseFloat(totalCarbon.textContent);
+            const newValue = (currentValue - 0.01).toFixed(1);
+            if (newValue > 0) {
+                totalCarbon.textContent = newValue;
+            }
+
+            const points = document.getElementById('points');
+            const currentPoints = parseInt(points.textContent.replace(',', ''));
+            points.textContent = (currentPoints + Math.floor(Math.random() * 10)).toLocaleString();
+        }, 10000);
+
+        // Add some demo interactions
+        document.addEventListener('click', (e) => {
+            if (e.target.classList.contains('stat-card')) {
+                e.target.style.transform = 'scale(1.05)';
+                setTimeout(() => {
+                    e.target.style.transform = 'scale(1)';
+                }, 200);
+            }
+        });
+
+        // Auto-demo for AI assistant
+        setTimeout(() => {
+            if (Math.random() > 0.7) { // 30% chance
+                const assistant = document.getElementById('ai-assistant');
+                if (!assistant.classList.contains('open')) {
+                    addMessage("💡 Proactive Insight: Your carbon footprint decreased by 5% this week! Keep up the great work!", 'ai');
+                }
+            }
+        }, 15000);
+    </script>
+</body>
+</html>
