@@ -1,0 +1,17 @@
+name: Run Bash Example
+
+on: [push]   # triggers this workflow on every push
+
+jobs:
+  run-bash:
+    runs-on: ubuntu-latest   # gives you Linux with Bash installed
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Run Bash commands
+        run: |
+          echo "Hello from Bash on GitHub!"
+          pwd
+          ls -la
+        shell: bash
