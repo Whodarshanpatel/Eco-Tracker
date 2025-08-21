@@ -14,11 +14,22 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary: #10b981;
+            --secondary: #3b82f6;
+            --accent: #8b5cf6;
+            --dark: #0a0a0a;
+            --darker: #111827;
+            --light: #ffffff;
+            --gray: #d1d5db;
+            --text: #e5e7eb;
+        }
+
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             line-height: 1.6;
-            background: #0a0a0a;
-            color: #ffffff;
+            background: var(--dark);
+            color: var(--light);
             overflow-x: hidden;
         }
 
@@ -35,7 +46,7 @@
             width: 100%;
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(34, 197, 94, 0.2);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
             z-index: 1000;
             transition: all 0.3s ease;
         }
@@ -52,10 +63,11 @@
             align-items: center;
             font-size: 1.5rem;
             font-weight: 700;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            cursor: pointer;
         }
 
         .nav-menu {
@@ -66,15 +78,20 @@
         }
 
         .nav-link {
-            color: #e5e7eb;
+            color: var(--text);
             text-decoration: none;
             font-weight: 500;
             transition: all 0.3s ease;
             position: relative;
+            cursor: pointer;
         }
 
         .nav-link:hover {
-            color: #10b981;
+            color: var(--primary);
+        }
+
+        .nav-link.active {
+            color: var(--primary);
         }
 
         .nav-link::after {
@@ -84,17 +101,17 @@
             height: 2px;
             bottom: -5px;
             left: 0;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             transition: width 0.3s ease;
         }
 
-        .nav-link:hover::after {
+        .nav-link:hover::after, .nav-link.active::after {
             width: 100%;
         }
 
         .cta-button {
             padding: 0.75rem 1.5rem;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             border-radius: 50px;
             color: white;
@@ -102,11 +119,23 @@
             text-decoration: none;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            cursor: pointer;
         }
 
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+        }
+
+        /* Page System */
+        .page {
+            display: none;
+            min-height: 100vh;
+            padding-top: 80px;
+        }
+
+        .page.active {
+            display: block;
         }
 
         /* Hero Section */
@@ -131,7 +160,7 @@
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, #ffffff, #10b981);
+            background: linear-gradient(135deg, #ffffff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -139,7 +168,7 @@
 
         .hero-text p {
             font-size: 1.25rem;
-            color: #d1d5db;
+            color: var(--gray);
             margin-bottom: 2rem;
             line-height: 1.6;
         }
@@ -150,32 +179,27 @@
             flex-wrap: wrap;
         }
 
-        .btn-primary {
+        .btn-primary, .btn-secondary {
             padding: 1rem 2rem;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
-            border: none;
             border-radius: 50px;
-            color: white;
             font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
         }
 
         .btn-secondary {
-            padding: 1rem 2rem;
             background: transparent;
-            border: 2px solid #10b981;
-            border-radius: 50px;
-            color: #10b981;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
+            border: 2px solid var(--primary);
+            color: var(--primary);
         }
 
         .btn-primary:hover {
@@ -184,7 +208,7 @@
         }
 
         .btn-secondary:hover {
-            background: #10b981;
+            background: var(--primary);
             color: white;
             transform: translateY(-3px);
         }
@@ -201,82 +225,60 @@
             background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(59, 130, 246, 0.1));
         }
 
-        /* Features Section */
-        .features {
-            padding: 6rem 0;
-            background: linear-gradient(135deg, #111827, #1f2937);
+        /* Dashboard Styles */
+        .dashboard-main {
+            padding: 2rem 0;
         }
 
-        .features h2 {
+        .dashboard-header {
             text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-header h1 {
             font-size: 3rem;
             font-weight: 800;
-            margin-bottom: 4rem;
-            background: linear-gradient(135deg, #ffffff, #10b981);
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .features-grid {
+        .dashboard-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: 1fr 2fr;
             gap: 2rem;
-            margin-bottom: 4rem;
+            margin-bottom: 3rem;
         }
 
-        .feature-card {
+        .stats-sidebar {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(16, 185, 129, 0.2);
             border-radius: 20px;
             padding: 2rem;
-            text-align: center;
-            transition: all 0.3s ease;
             backdrop-filter: blur(10px);
         }
 
-        .feature-card:hover {
-            transform: translateY(-10px);
-            border-color: rgba(16, 185, 129, 0.5);
-            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            color: #10b981;
-            margin-bottom: 1rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
-            color: #ffffff;
-        }
-
-        .feature-card p {
-            color: #d1d5db;
-            line-height: 1.6;
-        }
-
-        /* Demo Dashboard */
-        .dashboard {
-            padding: 6rem 0;
-            background: #0a0a0a;
-        }
-
-        .dashboard h2 {
+        .stat-item {
+            margin-bottom: 2rem;
             text-align: center;
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 4rem;
-            background: linear-gradient(135deg, #ffffff, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .dashboard-container {
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .main-dashboard {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(59, 130, 246, 0.2);
             border-radius: 20px;
@@ -297,15 +299,15 @@
             background: transparent;
             border: 2px solid rgba(59, 130, 246, 0.3);
             border-radius: 50px;
-            color: #d1d5db;
+            color: var(--gray);
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .tab-button.active {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            border-color: #3b82f6;
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            border-color: var(--secondary);
             color: white;
         }
 
@@ -317,33 +319,6 @@
             display: block;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 15px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: #10b981;
-        }
-
-        .stat-label {
-            color: #d1d5db;
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-
         .chart-container {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 15px;
@@ -351,21 +326,85 @@
             margin-top: 2rem;
         }
 
+        /* Carbon Tracker Specific */
+        .activity-logger {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr auto;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .input-field, .select-field {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 0.75rem;
+            color: white;
+            outline: none;
+        }
+
+        .input-field::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .add-activity-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .activities-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .delete-btn {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.5);
+            border-radius: 5px;
+            color: #ef4444;
+            padding: 0.25rem 0.5rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
         /* AI Assistant */
         .ai-assistant {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 350px;
-            height: 500px;
-            background: rgba(10, 10, 10, 0.95);
+            width: 400px;
+            height: 600px;
+            background: rgba(10, 10, 10, 0.98);
             border: 1px solid rgba(16, 185, 129, 0.3);
             border-radius: 20px;
             backdrop-filter: blur(20px);
             display: none;
             flex-direction: column;
             z-index: 1000;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         .ai-assistant.open {
@@ -373,13 +412,27 @@
         }
 
         .ai-header {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             padding: 1rem;
             border-radius: 20px 20px 0 0;
             display: flex;
             justify-content: space-between;
             align-items: center;
+        }
+
+        .ai-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
 
         .ai-messages {
@@ -390,55 +443,120 @@
 
         .message {
             margin-bottom: 1rem;
-            padding: 0.75rem;
-            border-radius: 10px;
-            max-width: 80%;
+            padding: 0.75rem 1rem;
+            border-radius: 15px;
+            max-width: 85%;
+            word-wrap: break-word;
         }
 
         .message.user {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
             margin-left: auto;
             color: white;
+            border-radius: 15px 15px 5px 15px;
         }
 
         .message.ai {
             background: rgba(16, 185, 129, 0.1);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #d1d5db;
+            color: var(--text);
+            border-radius: 15px 15px 15px 5px;
+        }
+
+        .message.ai .agent-tag {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .typing-indicator {
+            display: flex;
+            gap: 0.25rem;
+            padding: 0.5rem;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: scale(1); opacity: 0.5; }
+            30% { transform: scale(1.2); opacity: 1; }
+        }
+
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .quick-action {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 15px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-action:hover {
+            background: rgba(59, 130, 246, 0.2);
         }
 
         .ai-input {
             display: flex;
             padding: 1rem;
             gap: 0.5rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
         }
 
         .ai-input input {
             flex: 1;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(16, 185, 129, 0.3);
-            border-radius: 10px;
-            padding: 0.75rem;
+            border-radius: 15px;
+            padding: 0.75rem 1rem;
             color: white;
             outline: none;
         }
 
+        .ai-input input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
         .ai-input button {
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
-            border-radius: 10px;
+            border-radius: 15px;
             color: white;
             padding: 0.75rem 1rem;
             cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .ai-input button:hover {
+            transform: scale(1.05);
         }
 
         .ai-toggle {
             position: fixed;
             bottom: 2rem;
             right: 2rem;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #10b981, #3b82f6);
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             border: none;
             border-radius: 50%;
             color: white;
@@ -446,13 +564,93 @@
             cursor: pointer;
             box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
             transition: all 0.3s ease;
+            z-index: 999;
         }
 
         .ai-toggle:hover {
             transform: scale(1.1);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
         }
 
-        /* Responsive Design */
+        /* About Page */
+        .about-hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--darker), rgba(16, 185, 129, 0.1));
+            border-radius: 20px;
+            margin: 2rem 0;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Contact Page */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            color: white;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .nav-menu {
                 display: none;
@@ -468,11 +666,11 @@
                 height: 300px;
             }
 
-            .hero-buttons {
-                justify-content: center;
+            .dashboard-grid {
+                grid-template-columns: 1fr;
             }
 
-            .features-grid {
+            .input-group {
                 grid-template-columns: 1fr;
             }
 
@@ -480,10 +678,14 @@
                 width: calc(100vw - 2rem);
                 right: 1rem;
                 left: 1rem;
+                height: 500px;
             }
 
             .ai-toggle {
                 right: 1rem;
+                width: 60px;
+                height: 60px;
+                font-size: 1.2rem;
             }
         }
 
@@ -499,24 +701,15 @@
             }
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         .animate-fade-in-up {
             animation: fadeInUp 0.6s ease-out;
         }
 
-        @keyframes pulse {
-            0%, 100% {
-                opacity: 1;
-            }
-            50% {
-                opacity: 0.5;
-            }
-        }
-
-        .animate-pulse {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-
-        /* Scroll animations */
         .scroll-animate {
             opacity: 0;
             transform: translateY(50px);
@@ -527,188 +720,324 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0.1) 100%);
+            background-size: 200% 100%;
+            animation: loading 2s infinite;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">
+            <div class="logo" onclick="showPage('home')">
                 <i class="fas fa-leaf" style="margin-right: 0.5rem;"></i>
                 EcoTracker
             </div>
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link">Home</a></li>
-                <li><a href="#features" class="nav-link">Features</a></li>
-                <li><a href="#dashboard" class="nav-link">Dashboard</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
-                <li><a href="#" class="cta-button">Get Started</a></li>
+                <li><span class="nav-link" onclick="showPage('home')">Home</span></li>
+                <li><span class="nav-link" onclick="showPage('dashboard')">Dashboard</span></li>
+                <li><span class="nav-link" onclick="showPage('tracker')">Carbon Tracker</span></li>
+                <li><span class="nav-link" onclick="showPage('about')">About</span></li>
+                <li><span class="nav-link" onclick="showPage('contact')">Contact</span></li>
+                <li><button class="cta-button" onclick="showPage('dashboard')">Get Started</button></li>
             </ul>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text animate-fade-in-up">
-                    <h1>Track Your Impact.<br>Change Your World.</h1>
-                    <p>The world's first AI-powered sustainability platform with autonomous agents that help you reduce your carbon footprint through personalized coaching and community challenges.</p>
-                    <div class="hero-buttons">
-                        <a href="#dashboard" class="btn-primary">Try Demo</a>
-                        <a href="#features" class="btn-secondary">Learn More</a>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-text animate-fade-in-up">
+                        <h1>Track Your Impact.<br>Change Your World.</h1>
+                        <p>The world's first AI-powered sustainability platform with autonomous agents that help you reduce your carbon footprint through personalized coaching and community challenges.</p>
+                        <div class="hero-buttons">
+                            <button class="btn-primary" onclick="showPage('dashboard')">Try Demo</button>
+                            <button class="btn-secondary" onclick="showPage('about')">Learn More</button>
+                        </div>
+                    </div>
+                    <div class="hero-visual">
+                        <canvas id="hero-canvas"></canvas>
                     </div>
                 </div>
-                <div class="hero-visual">
-                    <canvas id="hero-canvas"></canvas>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
 
-    <!-- Features Section -->
-    <section id="features" class="features scroll-animate">
-        <div class="container">
-            <h2>Revolutionary Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
-                    <h3>Agentic AI Assistant</h3>
-                    <p>Multi-agent AI system that autonomously plans, analyzes, and optimizes your sustainability journey with natural conversation.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📊</div>
-                    <h3>Real-time Carbon Tracking</h3>
-                    <p>Track your carbon footprint across transport, energy, food, and waste with precise calculations and beautiful visualizations.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Smart Goal Setting</h3>
-                    <p>AI-powered goal optimization that adapts to your lifestyle and provides achievable sustainability targets.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🏆</div>
-                    <h3>Community Challenges</h3>
-                    <p>Join gamified sustainability challenges, compete with friends, and earn rewards for eco-friendly actions.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🔍</div>
-                    <h3>Behavioral Analysis</h3>
-                    <p>Advanced pattern recognition identifies opportunities for improvement and predicts future sustainability behaviors.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🌍</div>
-                    <h3>Impact Visualization</h3>
-                    <p>See your real-world environmental impact through interactive maps, trends, and comparative analytics.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Demo Dashboard -->
-    <section id="dashboard" class="dashboard scroll-animate">
-        <div class="container">
-            <h2>Interactive Demo Dashboard</h2>
-            <div class="dashboard-container">
-                <div class="dashboard-tabs">
-                    <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
-                    <button class="tab-button" onclick="switchTab('carbon')">Carbon Tracking</button>
-                    <button class="tab-button" onclick="switchTab('challenges')">Challenges</button>
-                    <button class="tab-button" onclick="switchTab('ai')">AI Insights</button>
+    <!-- Dashboard Page -->
+    <div id="dashboard" class="page">
+        <section class="dashboard-main">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Sustainability Dashboard</h1>
+                    <p>Monitor your environmental impact in real-time</p>
                 </div>
 
-                <!-- Overview Tab -->
-                <div id="overview" class="tab-content active">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number" id="total-carbon">4.2</div>
+                <div class="dashboard-grid">
+                    <div class="stats-sidebar">
+                        <div class="stat-item">
+                            <span class="stat-number" id="total-carbon">4.2</span>
                             <div class="stat-label">Total CO2 (tons/month)</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="reduction">23%</div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="reduction">23%</span>
                             <div class="stat-label">Carbon Reduction</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="rank">156</div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="rank">156</span>
                             <div class="stat-label">Global Rank</div>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number" id="points">1,847</div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="points">1,847</span>
                             <div class="stat-label">Eco Points</div>
                         </div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="overview-chart"></canvas>
-                    </div>
-                </div>
 
-                <!-- Carbon Tracking Tab -->
-                <div id="carbon" class="tab-content">
-                    <div class="stats-grid">
-                        <div class="stat-card">
-                            <div class="stat-number">1.2</div>
-                            <div class="stat-label">Transport CO2</div>
+                    <div class="main-dashboard">
+                        <div class="dashboard-tabs">
+                            <button class="tab-button active" onclick="switchTab('overview')">Overview</button>
+                            <button class="tab-button" onclick="switchTab('carbon')">Carbon Analysis</button>
+                            <button class="tab-button" onclick="switchTab('challenges')">Challenges</button>
+                            <button class="tab-button" onclick="switchTab('ai-insights')">AI Insights</button>
                         </div>
-                        <div class="stat-card">
-                            <div class="stat-number">1.8</div>
-                            <div class="stat-label">Energy CO2</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">0.9</div>
-                            <div class="stat-label">Food CO2</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">0.3</div>
-                            <div class="stat-label">Waste CO2</div>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="carbon-chart"></canvas>
-                    </div>
-                </div>
 
-                <!-- Challenges Tab -->
-                <div id="challenges" class="tab-content">
-                    <div class="challenge-list" style="color: #d1d5db;">
-                        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
-                            <h4>🚲 Bike to Work Challenge</h4>
-                            <p>Use bike or walk for commute 3 days this week</p>
-                            <div style="background: rgba(16, 185, 129, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
-                                <div style="background: #10b981; height: 100%; width: 60%; border-radius: 10px;"></div>
+                        <!-- Overview Tab -->
+                        <div id="overview" class="tab-content active">
+                            <div class="chart-container">
+                                <canvas id="overview-chart"></canvas>
                             </div>
-                            <small>Progress: 60% (3/5 days)</small>
                         </div>
-                        <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
-                            <h4>💡 Energy Saver Week</h4>
-                            <p>Reduce electricity usage by 20%</p>
-                            <div style="background: rgba(59, 130, 246, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
-                                <div style="background: #3b82f6; height: 100%; width: 85%; border-radius: 10px;"></div>
-                            </div>
-                            <small>Progress: 85% (17% reduction achieved)</small>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- AI Insights Tab -->
-                <div id="ai" class="tab-content">
-                    <div style="color: #d1d5db;">
-                        <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
-                            <h4>🧠 AI Sustainability Advisor</h4>
-                            <p><strong>Today's Insight:</strong> Your transport emissions are 30% lower this week! The AI suggests maintaining this pattern by using public transport on rainy days instead of driving.</p>
+                        <!-- Carbon Analysis Tab -->
+                        <div id="carbon" class="tab-content">
+                            <div class="chart-container">
+                                <canvas id="carbon-chart"></canvas>
+                            </div>
                         </div>
-                        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
-                            <h4>🎯 Carbon Optimizer</h4>
-                            <p><strong>Recommendation:</strong> Switch to renewable energy plan. Estimated savings: 2.1 tons CO2/year. The AI has found 3 local providers with competitive rates.</p>
+
+                        <!-- Challenges Tab -->
+                        <div id="challenges" class="tab-content">
+                            <div class="challenge-list" style="color: var(--text);">
+                                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4>🚲 Bike to Work Challenge</h4>
+                                    <p>Use bike or walk for commute 3 days this week</p>
+                                    <div style="background: rgba(16, 185, 129, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
+                                        <div style="background: var(--primary); height: 100%; width: 60%; border-radius: 10px;"></div>
+                                    </div>
+                                    <small>Progress: 60% (3/5 days)</small>
+                                </div>
+                                <div style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); border-radius: 10px; padding: 1rem; margin-bottom: 1rem;">
+                                    <h4>💡 Energy Saver Week</h4>
+                                    <p>Reduce electricity usage by 20%</p>
+                                    <div style="background: rgba(59, 130, 246, 0.2); border-radius: 10px; height: 10px; margin-top: 10px;">
+                                        <div style="background: var(--secondary); height: 100%; width: 85%; border-radius: 10px;"></div>
+                                    </div>
+                                    <small>Progress: 85% (17% reduction achieved)</small>
+                                </div>
+                            </div>
                         </div>
-                        <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 15px; padding: 1.5rem;">
-                            <h4>📈 Behavior Analyst</h4>
-                            <p><strong>Pattern Alert:</strong> Your weekend energy usage spikes by 40%. The AI suggests automated smart home scheduling to optimize consumption.</p>
+
+                        <!-- AI Insights Tab -->
+                        <div id="ai-insights" class="tab-content">
+                            <div style="color: var(--text);">
+                                <div style="background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                                    <h4>🧠 AI Sustainability Advisor</h4>
+                                    <p><strong>Today's Insight:</strong> Your transport emissions are 30% lower this week! The AI suggests maintaining this pattern by using public transport on rainy days instead of driving.</p>
+                                </div>
+                                <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 15px; padding: 1.5rem; margin-bottom: 1rem;">
+                                    <h4>🎯 Carbon Optimizer</h4>
+                                    <p><strong>Recommendation:</strong> Switch to renewable energy plan. Estimated savings: 2.1 tons CO2/year. The AI has found 3 local providers with competitive rates.</p>
+                                </div>
+                                <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 15px; padding: 1.5rem;">
+                                    <h4>📈 Behavior Analyst</h4>
+                                    <p><strong>Pattern Alert:</strong> Your weekend energy usage spikes by 40%. The AI suggests automated smart home scheduling to optimize consumption.</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </div>
+
+    <!-- Carbon Tracker Page -->
+    <div id="tracker" class="page">
+        <section class="dashboard-main">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Carbon Footprint Tracker</h1>
+                    <p>Log your daily activities and track emissions</p>
+                </div>
+
+                <div class="activity-logger">
+                    <h3 style="margin-bottom: 1.5rem;">Add New Activity</h3>
+                    <div class="input-group">
+                        <select class="select-field" id="activity-type">
+                            <option value="">Select Category</option>
+                            <option value="transport">🚗 Transport</option>
+                            <option value="energy">⚡ Energy</option>
+                            <option value="food">🍽️ Food</option>
+                            <option value="waste">🗑️ Waste</option>
+                        </select>
+                        <input type="text" class="input-field" id="activity-description" placeholder="Activity description">
+                        <input type="number" class="input-field" id="activity-amount" placeholder="Amount" step="0.1">
+                        <button class="add-activity-btn" onclick="addActivity()">
+                            <i class="fas fa-plus"></i> Add
+                        </button>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="stats-sidebar">
+                        <div class="stat-item">
+                            <span class="stat-number" id="transport-co2">1.2</span>
+                            <div class="stat-label">Transport CO2</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="energy-co2">1.8</span>
+                            <div class="stat-label">Energy CO2</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="food-co2">0.9</span>
+                            <div class="stat-label">Food CO2</div>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" id="waste-co2">0.3</span>
+                            <div class="stat-label">Waste CO2</div>
+                        </div>
+                    </div>
+
+                    <div class="main-dashboard">
+                        <h3 style="margin-bottom: 1rem;">Recent Activities</h3>
+                        <div class="activities-list" id="activities-list">
+                            <!-- Activities will be populated here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page">
+        <section class="dashboard-main">
+            <div class="container">
+                <div class="about-hero">
+                    <h1>About EcoTracker</h1>
+                    <p>Revolutionizing sustainability through AI-powered insights and community action</p>
+                </div>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>Agentic AI System</h3>
+                        <p>Our multi-agent AI system autonomously plans, analyzes, and optimizes your sustainability journey with natural conversation and proactive insights.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3>Real-time Tracking</h3>
+                        <p>Monitor your carbon footprint across transport, energy, food, and waste with precise calculations and beautiful visualizations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎯</div>
+                        <h3>Smart Goal Setting</h3>
+                        <p>AI-powered goal optimization that adapts to your lifestyle and provides achievable sustainability targets.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🏆</div>
+                        <h3>Community Challenges</h3>
+                        <p>Join gamified sustainability challenges, compete with friends, and earn rewards for eco-friendly actions.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3>Behavioral Analysis</h3>
+                        <p>Advanced pattern recognition identifies opportunities for improvement and predicts future behaviors.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌍</div>
+                        <h3>Global Impact</h3>
+                        <p>See your real-world environmental impact through interactive maps, trends, and comparative analytics.</p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin: 4rem 0; padding: 3rem; background: rgba(16, 185, 129, 0.05); border-radius: 20px;">
+                    <h2>Our Mission</h2>
+                    <p style="font-size: 1.2rem; line-height: 1.8; max-width: 800px; margin: 1rem auto;">
+                        To democratize sustainability by making environmental responsibility accessible, measurable, and rewarding for everyone. 
+                        Through cutting-edge AI technology and community-driven action, we're building a future where every individual 
+                        can make a meaningful impact on climate change.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page">
+        <section class="dashboard-main">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h1>Contact Us</h1>
+                    <p>Get in touch with our team</p>
+                </div>
+
+                <div class="contact-form">
+                    <form onsubmit="handleContact(event)">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your sustainability goals or questions..."></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <h3>Other Ways to Reach Us</h3>
+                    <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap;">
+                        <div>
+                            <i class="fas fa-envelope" style="color: var(--primary); font-size: 1.5rem;"></i>
+                            <p>hello@ecotracker.ai</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-phone" style="color: var(--primary); font-size: 1.5rem;"></i>
+                            <p>+1 (555) 123-4567</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-map-marker-alt" style="color: var(--primary); font-size: 1.5rem;"></i>
+                            <p>San Francisco, CA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- AI Assistant Toggle -->
     <button class="ai-toggle" onclick="toggleAI()">
@@ -720,17 +1049,36 @@
         <div class="ai-header">
             <div>
                 <strong>🤖 EcoAI Assistant</strong>
-                <div style="font-size: 0.8rem; opacity: 0.8;">Powered by Agentic AI</div>
+                <div style="font-size: 0.8rem; opacity: 0.8;">
+                    <div class="ai-status">
+                        <span class="status-dot"></span>
+                        <span id="ai-status-text">Online</span>
+                    </div>
+                </div>
             </div>
             <button onclick="toggleAI()" style="background: none; border: none; color: white; font-size: 1.2rem; cursor: pointer;">×</button>
         </div>
         <div class="ai-messages" id="ai-messages">
             <div class="message ai">
-                Hello! I'm your AI sustainability coach. I can help you track your carbon footprint, create personalized plans, and find eco-friendly alternatives. What would you like to know?
+                <div class="agent-tag">Sustainability Advisor</div>
+                Hello! I'm your AI sustainability coach with multiple specialized agents ready to help:
+                <br><br>
+                🧠 <strong>Sustainability Advisor:</strong> Personalized eco-tips<br>
+                🎯 <strong>Carbon Optimizer:</strong> Emission reduction strategies<br>
+                📈 <strong>Behavior Analyst:</strong> Pattern analysis & predictions<br>
+                🤝 <strong>Community Manager:</strong> Challenges & social features<br>
+                <br>
+                What would you like to explore today?
             </div>
         </div>
+        <div class="quick-actions">
+            <div class="quick-action" onclick="sendQuickMessage('Calculate my carbon footprint')">Calculate Carbon Footprint</div>
+            <div class="quick-action" onclick="sendQuickMessage('Create sustainability plan')">Create Plan</div>
+            <div class="quick-action" onclick="sendQuickMessage('Find eco challenges')">Find Challenges</div>
+            <div class="quick-action" onclick="sendQuickMessage('Analyze my patterns')">Analyze Patterns</div>
+        </div>
         <div class="ai-input">
-            <input type="text" id="ai-input-field" placeholder="Ask about sustainability..." onkeypress="handleKeyPress(event)">
+            <input type="text" id="ai-input-field" placeholder="Ask your AI agents anything..." onkeypress="handleKeyPress(event)">
             <button onclick="sendMessage()">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -738,29 +1086,120 @@
     </div>
 
     <script>
-        // Global variables
-        let overviewChart, carbonChart;
-        let aiResponses = [
-            "Based on your data, switching to public transport 3 days a week could reduce your carbon footprint by 18%.",
-            "Great question! I recommend starting with energy-efficient appliances. They can cut your home emissions by 25%.",
-            "Your carbon footprint is improving! You've reduced emissions by 15% this month through better transport choices.",
-            "I've analyzed your patterns and suggest meal prepping to reduce food waste. This could save 0.3 tons CO2/year.",
-            "Excellent progress on the bike challenge! The AI predicts you'll exceed your target by 20% this month.",
-            "Consider installing LED lights. Based on your usage patterns, you could save 200kg CO2 annually.",
-            "Your community ranking improved to #156! The behavior analyst suggests focusing on weekend energy usage next."
-        ];
+        // Global State Management
+        const AppState = {
+            currentPage: 'home',
+            userActivities: JSON.parse(localStorage.getItem('ecoActivities')) || [],
+            userStats: {
+                totalCarbon: 4.2,
+                reduction: 23,
+                rank: 156,
+                points: 1847,
+                transport: 1.2,
+                energy: 1.8,
+                food: 0.9,
+                waste: 0.3
+            },
+            aiAgents: ['Sustainability Advisor', 'Carbon Optimizer', 'Behavior Analyst', 'Community Manager'],
+            aiResponses: {}
+        };
+
+        // Initialize advanced AI responses
+        AppState.aiResponses = {
+            'carbon': {
+                'Sustainability Advisor': "Based on your current data, your carbon footprint is 4.2 tons CO2/month. The average in your region is 5.8 tons, so you're already doing better than most! I recommend focusing on transport emissions next - they represent 28% of your total footprint.",
+                'Carbon Optimizer': "I've analyzed your emission patterns and identified 3 key optimization opportunities: 1) Switch to electric vehicle (save 0.8 tons/month), 2) Use renewable energy (save 0.6 tons/month), 3) Optimize heating schedule (save 0.3 tons/month). Total potential savings: 1.7 tons CO2/month.",
+                'Behavior Analyst': "Your carbon footprint shows interesting patterns: weekdays average 20% lower emissions than weekends, likely due to work-from-home policies. Your transport emissions spike on Fridays (social activities). Consistency score: 78% - room for improvement in weekend habits."
+            },
+            'plan': {
+                'Sustainability Advisor': "I'll create a personalized 30-day sustainability plan for you! Week 1: Focus on transport (bike 3 days), Week 2: Energy efficiency (LED replacement), Week 3: Diet optimization (2 plant-based meals), Week 4: Waste reduction (composting setup). Expected CO2 reduction: 15-20%.",
+                'Carbon Optimizer': "Analyzing your lifestyle data to create an optimal reduction strategy... Plan generated! Priority actions: 1) Install smart thermostat (immediate 12% energy savings), 2) Join carpool network (25% transport reduction), 3) Switch to renewable energy provider (40% grid emissions cut). Implementation timeline: 2 weeks.",
+                'Community Manager': "Perfect timing! I'll create a plan that integrates with our community challenges. Join 'Green Commuter Challenge' (starts Monday), 'Energy Saver Week' (ongoing), and 'Plant-Based Friday' (weekly). Completing all three unlocks 500 bonus eco-points and climate hero badge!"
+            },
+            'challenges': {
+                'Community Manager': "Great question! Here are active challenges perfect for you: 🚲 'Bike to Work Challenge' (60% complete - you're doing amazing!), 💡 'Energy Saver Week' (85% complete - almost there!), 🌱 'Plant-Based Meal Challenge' (just started - join 847 others). Completing all three puts you in top 10% of users!",
+                'Sustainability Advisor': "I recommend starting with challenges that match your current habits. Based on your data, you're already cycling regularly, so the bike challenge is perfect. The energy challenge aligns with your smart home setup. New challenge idea: 'Zero Waste Weekend' - perfect for your waste reduction goals!"
+            },
+            'patterns': {
+                'Behavior Analyst': "Fascinating patterns detected in your data! 📊 Weekly trend: 23% emissions reduction (excellent progress). Key insights: 1) Monday-Wednesday: optimal performance, 2) Thursday energy spike (work stress?), 3) Weekend transport increase (social activities). Recommendation: maintain weekday discipline, optimize weekend planning.",
+                'Carbon Optimizer': "Your behavioral patterns reveal optimization opportunities: Energy usage peaks at 7-9 PM (shift to 6-8 PM for off-peak rates), weekend driving could be reduced 40% with better trip planning, food waste occurs primarily on Sundays (meal prep solution needed). Implementing these changes could save 0.8 tons CO2/month.",
+                'Sustainability Advisor': "Your patterns show excellent sustainability habits forming! You've maintained consistent behavior changes for 3 weeks - that's when habits become permanent. Areas of strength: transport consistency (92%), energy awareness (85%). Growth opportunity: weekend food planning (currently 65% efficiency)."
+            },
+            'energy': {
+                'Carbon Optimizer': "Energy analysis complete! Your home uses 15% less energy than neighborhood average. Smart wins: LED bulbs (-20% lighting costs), programmable thermostat (-12% heating/cooling). Next steps: solar panels (ROI: 6 years, -60% grid dependence), smart water heater (-8% energy use), energy-efficient appliances upgrade (-25% consumption).",
+                'Sustainability Advisor': "Excellent work on energy efficiency! Your recent 17% reduction puts you in the top 25% of users. Pro tips: unplug vampire devices (save $120/year), use cold water for washing (save 0.2 tons CO2/month), set thermostat 2°F lower in winter (10% heating savings). Small changes, big impact!"
+            },
+            'transport': {
+                'Carbon Optimizer': "Transport optimization analysis: Your 30% reduction in vehicle emissions this month is outstanding! Current strategy working well: bike commuting 3x/week, public transit 2x/week. Optimization suggestions: combine errands (save 15% driving), carpool for long trips (50% emission reduction), consider electric bike for longer distances.",
+                'Behavior Analyst': "Transportation behavior insights: You've successfully shifted 60% of trips to sustainable modes. Pattern detected: rainy days = 40% more car usage. Solution: weather-based planning, waterproof gear investment, backup public transit routes. Consistency score improving from 45% to 78% over 6 weeks!"
+            },
+            'food': {
+                'Sustainability Advisor': "Food choices make a huge impact! Your current diet generates 0.9 tons CO2/month - that's 25% below average. Wins: local produce (+1), reduced meat consumption (+1). Opportunities: food waste reduction (save 0.2 tons/month), grow herbs at home (fresh + zero transport), try 'Meatless Monday' challenge (join 12,000+ participants).",
+                'Carbon Optimizer': "Food footprint optimization plan: 1) Reduce food waste by 30% (meal planning app connected), 2) Increase plant-based meals to 60% (save 0.3 tons CO2/month), 3) Buy seasonal produce (40% lower transport emissions), 4) Start composting (turn waste into soil). Total potential: 0.5 tons CO2 reduction/month."
+            },
+            'general': [
+                "I'm here to help you on your sustainability journey! With my team of specialized agents, we can tackle any environmental challenge. What specific area would you like to focus on today?",
+                "Your progress has been impressive - 23% carbon reduction in just 2 months! The key is consistency. Which aspect of your sustainability journey interests you most right now?",
+                "As your AI sustainability coach, I'm constantly analyzing your patterns to provide better recommendations. Is there a particular environmental goal you'd like help achieving?",
+                "Great question! My agent network is always learning from the latest climate science and user behaviors. How can we optimize your environmental impact today?",
+                "I love your commitment to sustainability! My specialized agents and I are here 24/7 to provide personalized insights. What would you like to explore?",
+                "Your eco-journey is unique, and that's why I use multiple AI agents to provide comprehensive support. What sustainability challenge can we solve together?",
+                "The data shows you're making real environmental impact! My agents are excited to help you reach the next level. What area interests you most?"
+            ]
+        };
 
         // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', function() {
             initCharts();
             initThreeJS();
-            setupScrollAnimations();
-            animateStats();
+            updateActivityDisplay();
+            updateStats();
+            loadUserData();
         });
+
+        // Page Management
+        function showPage(pageId) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update nav link
+            const navLink = Array.from(document.querySelectorAll('.nav-link')).find(link => 
+                link.textContent.toLowerCase().includes(pageId) || 
+                (pageId === 'home' && link.textContent === 'Home') ||
+                (pageId === 'tracker' && link.textContent === 'Carbon Tracker')
+            );
+            if (navLink) navLink.classList.add('active');
+            
+            // Update current page
+            AppState.currentPage = pageId;
+            
+            // Reinitialize charts if needed
+            if (pageId === 'dashboard') {
+                setTimeout(() => {
+                    if (window.overviewChart) window.overviewChart.update();
+                    if (window.carbonChart) window.carbonChart.update();
+                }, 100);
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
         // Three.js Hero Animation
         function initThreeJS() {
             const canvas = document.getElementById('hero-canvas');
+            if (!canvas) return;
+            
             const scene = new THREE.Scene();
             const camera = new THREE.PerspectiveCamera(75, canvas.offsetWidth / canvas.offsetHeight, 0.1, 1000);
             const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
@@ -768,28 +1207,44 @@
             renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
             renderer.setClearColor(0x000000, 0);
 
-            // Create animated particles representing CO2 reduction
-            const geometry = new THREE.SphereGeometry(0.1, 8, 8);
-            const material = new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.7 });
+            // Create animated particles representing sustainability
+            const geometry = new THREE.SphereGeometry(0.05, 8, 8);
+            const materials = [
+                new THREE.MeshBasicMaterial({ color: 0x10b981, transparent: true, opacity: 0.8 }),
+                new THREE.MeshBasicMaterial({ color: 0x3b82f6, transparent: true, opacity: 0.6 }),
+                new THREE.MeshBasicMaterial({ color: 0x8b5cf6, transparent: true, opacity: 0.7 })
+            ];
             const particles = [];
 
-            for (let i = 0; i < 50; i++) {
-                const particle = new THREE.Mesh(geometry, material);
-                particle.position.x = (Math.random() - 0.5) * 10;
+            for (let i = 0; i < 100; i++) {
+                const particle = new THREE.Mesh(geometry, materials[i % 3]);
+                particle.position.x = (Math.random() - 0.5) * 15;
                 particle.position.y = (Math.random() - 0.5) * 10;
                 particle.position.z = (Math.random() - 0.5) * 10;
+                particle.userData = {
+                    speedX: (Math.random() - 0.5) * 0.02,
+                    speedY: (Math.random() - 0.5) * 0.015,
+                    speedZ: (Math.random() - 0.5) * 0.01
+                };
                 scene.add(particle);
                 particles.push(particle);
             }
 
-            camera.position.z = 5;
+            camera.position.z = 8;
 
             function animate() {
                 requestAnimationFrame(animate);
 
                 particles.forEach((particle, index) => {
-                    particle.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
-                    particle.position.x += Math.cos(Date.now() * 0.001 + index) * 0.005;
+                    particle.position.x += particle.userData.speedX;
+                    particle.position.y += particle.userData.speedY;
+                    particle.position.z += particle.userData.speedZ;
+                    
+                    // Boundary checks
+                    if (Math.abs(particle.position.x) > 8) particle.userData.speedX *= -1;
+                    if (Math.abs(particle.position.y) > 5) particle.userData.speedY *= -1;
+                    if (Math.abs(particle.position.z) > 5) particle.userData.speedZ *= -1;
+                    
                     particle.rotation.x += 0.01;
                     particle.rotation.y += 0.01;
                 });
@@ -801,64 +1256,108 @@
 
             // Handle resize
             window.addEventListener('resize', () => {
-                camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
-                camera.updateProjectionMatrix();
-                renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+                if (canvas.offsetWidth && canvas.offsetHeight) {
+                    camera.aspect = canvas.offsetWidth / canvas.offsetHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(canvas.offsetWidth, canvas.offsetHeight);
+                }
             });
         }
 
         // Initialize Charts
         function initCharts() {
             // Overview Chart
-            const overviewCtx = document.getElementById('overview-chart').getContext('2d');
-            overviewChart = new Chart(overviewCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                    datasets: [{
-                        label: 'Carbon Footprint (tons)',
-                        data: [6.2, 5.8, 5.4, 4.9, 4.5, 4.2],
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        borderWidth: 3,
-                        fill: true,
-                        tension: 0.4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { labels: { color: '#d1d5db' } }
+            const overviewCtx = document.getElementById('overview-chart');
+            if (overviewCtx) {
+                window.overviewChart = new Chart(overviewCtx.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Carbon Footprint (tons)',
+                            data: [6.2, 5.8, 5.4, 4.9, 4.5, 4.2],
+                            borderColor: 'var(--primary)',
+                            backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.4,
+                            pointBackgroundColor: 'var(--primary)',
+                            pointBorderColor: '#fff',
+                            pointBorderWidth: 2,
+                            pointRadius: 6
+                        }]
                     },
-                    scales: {
-                        x: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(209, 213, 219, 0.1)' } },
-                        y: { ticks: { color: '#d1d5db' }, grid: { color: 'rgba(209, 213, 219, 0.1)' } }
-                    }
-                }
-            });
-
-            // Carbon Chart
-            const carbonCtx = document.getElementById('carbon-chart').getContext('2d');
-            carbonChart = new Chart(carbonCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Transport', 'Energy', 'Food', 'Waste'],
-                    datasets: [{
-                        data: [1.2, 1.8, 0.9, 0.3],
-                        backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: { 
-                            labels: { color: '#d1d5db' },
-                            position: 'bottom'
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { 
+                                labels: { color: 'var(--text)' }
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(10, 10, 10, 0.9)',
+                                titleColor: 'var(--primary)',
+                                bodyColor: 'var(--text)',
+                                borderColor: 'var(--primary)',
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: { 
+                                ticks: { color: 'var(--text)' }, 
+                                grid: { color: 'rgba(209, 213, 219, 0.1)' } 
+                            },
+                            y: { 
+                                ticks: { color: 'var(--text)' }, 
+                                grid: { color: 'rgba(209, 213, 219, 0.1)' } 
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index'
                         }
                     }
-                }
-            });
+                });
+            }
+
+            // Carbon Chart
+            const carbonCtx = document.getElementById('carbon-chart');
+            if (carbonCtx) {
+                window.carbonChart = new Chart(carbonCtx.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Transport', 'Energy', 'Food', 'Waste'],
+                        datasets: [{
+                            data: [AppState.userStats.transport, AppState.userStats.energy, AppState.userStats.food, AppState.userStats.waste],
+                            backgroundColor: ['var(--secondary)', 'var(--primary)', '#f59e0b', '#ef4444'],
+                            borderWidth: 0,
+                            hoverOffset: 10
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { 
+                                labels: { color: 'var(--text)' },
+                                position: 'bottom'
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(10, 10, 10, 0.9)',
+                                titleColor: 'var(--primary)',
+                                bodyColor: 'var(--text)',
+                                callbacks: {
+                                    label: function(context) {
+                                        const label = context.label || '';
+                                        const value = context.parsed || 0;
+                                        const total = context.dataset.data.reduce((a, b) => a + b, 0);
+                                        const percentage = ((value / total) * 100).toFixed(1);
+                                        return `${label}: ${value} tons (${percentage}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         }
 
         // Tab Switching
@@ -876,10 +1375,180 @@
             event.target.classList.add('active');
 
             // Update charts if needed
-            if (tabName === 'overview' && overviewChart) {
-                setTimeout(() => overviewChart.update(), 100);
-            } else if (tabName === 'carbon' && carbonChart) {
-                setTimeout(() => carbonChart.update(), 100);
+            setTimeout(() => {
+                if (tabName === 'overview' && window.overviewChart) {
+                    window.overviewChart.update();
+                } else if (tabName === 'carbon' && window.carbonChart) {
+                    window.carbonChart.update();
+                }
+            }, 100);
+        }
+
+        // Activity Management
+        function addActivity() {
+            const type = document.getElementById('activity-type').value;
+            const description = document.getElementById('activity-description').value.trim();
+            const amount = parseFloat(document.getElementById('activity-amount').value);
+
+            if (!type || !description || !amount) {
+                alert('Please fill in all fields');
+                return;
+            }
+
+            // Calculate CO2 based on activity type
+            const co2Factors = {
+                transport: 0.2,  // kg CO2 per km
+                energy: 0.5,    // kg CO2 per kWh
+                food: 2.5,      // kg CO2 per kg
+                waste: 0.8      // kg CO2 per kg
+            };
+
+            const co2Amount = (amount * co2Factors[type] / 1000).toFixed(3); // Convert to tons
+
+            const activity = {
+                id: Date.now(),
+                type,
+                description,
+                amount,
+                co2: parseFloat(co2Amount),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+
+            AppState.userActivities.unshift(activity);
+            localStorage.setItem('ecoActivities', JSON.stringify(AppState.userActivities));
+
+            // Update stats
+            AppState.userStats[type] = parseFloat((AppState.userStats[type] + parseFloat(co2Amount)).toFixed(2));
+            AppState.userStats.totalCarbon = parseFloat((
+                AppState.userStats.transport + 
+                AppState.userStats.energy + 
+                AppState.userStats.food + 
+                AppState.userStats.waste
+            ).toFixed(2));
+
+            updateActivityDisplay();
+            updateStats();
+            
+            // Clear form
+            document.getElementById('activity-type').value = '';
+            document.getElementById('activity-description').value = '';
+            document.getElementById('activity-amount').value = '';
+
+            // Show success message
+            showNotification('Activity added successfully!', 'success');
+        }
+
+        function deleteActivity(activityId) {
+            const activityIndex = AppState.userActivities.findIndex(a => a.id === activityId);
+            if (activityIndex > -1) {
+                const activity = AppState.userActivities[activityIndex];
+                
+                // Update stats
+                AppState.userStats[activity.type] = parseFloat((AppState.userStats[activity.type] - activity.co2).toFixed(2));
+                AppState.userStats.totalCarbon = parseFloat((
+                    AppState.userStats.transport + 
+                    AppState.userStats.energy + 
+                    AppState.userStats.food + 
+                    AppState.userStats.waste
+                ).toFixed(2));
+
+                // Remove activity
+                AppState.userActivities.splice(activityIndex, 1);
+                localStorage.setItem('ecoActivities', JSON.stringify(AppState.userActivities));
+
+                updateActivityDisplay();
+                updateStats();
+                
+                showNotification('Activity deleted', 'info');
+            }
+        }
+
+        function updateActivityDisplay() {
+            const activitiesList = document.getElementById('activities-list');
+            if (!activitiesList) return;
+
+            if (AppState.userActivities.length === 0) {
+                activitiesList.innerHTML = `
+                    <div style="text-align: center; padding: 2rem; color: var(--gray);">
+                        <i class="fas fa-leaf" style="font-size: 3rem; opacity: 0.5; margin-bottom: 1rem;"></i>
+                        <p>No activities logged yet. Add your first activity above!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            activitiesList.innerHTML = AppState.userActivities.slice(0, 10).map(activity => `
+                <div class="activity-item">
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                            <span style="font-size: 1.2rem;">${getActivityIcon(activity.type)}</span>
+                            <strong>${activity.description}</strong>
+                        </div>
+                        <div style="font-size: 0.9rem; color: var(--gray);">
+                            ${activity.amount} ${getActivityUnit(activity.type)} • ${activity.co2} tons CO2 • ${activity.date} ${activity.time}
+                        </div>
+                    </div>
+                    <button class="delete-btn" onclick="deleteActivity(${activity.id})">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        function getActivityIcon(type) {
+            const icons = {
+                transport: '🚗',
+                energy: '⚡',
+                food: '🍽️',
+                waste: '🗑️'
+            };
+            return icons[type] || '📝';
+        }
+
+        function getActivityUnit(type) {
+            const units = {
+                transport: 'km',
+                energy: 'kWh',
+                food: 'kg',
+                waste: 'kg'
+            };
+            return units[type] || 'units';
+        }
+
+        function updateStats() {
+            // Update dashboard stats
+            const elements = {
+                'total-carbon': AppState.userStats.totalCarbon,
+                'reduction': AppState.userStats.reduction,
+                'rank': AppState.userStats.rank,
+                'points': AppState.userStats.points,
+                'transport-co2': AppState.userStats.transport,
+                'energy-co2': AppState.userStats.energy,
+                'food-co2': AppState.userStats.food,
+                'waste-co2': AppState.userStats.waste
+            };
+
+            Object.entries(elements).forEach(([id, value]) => {
+                const element = document.getElementById(id);
+                if (element) {
+                    if (typeof value === 'number') {
+                        element.textContent = value.toLocaleString();
+                    } else {
+                        element.textContent = value;
+                    }
+                }
+            });
+
+            // Update charts
+            if (window.carbonChart) {
+                window.carbonChart.data.datasets[0].data = [
+                    AppState.userStats.transport,
+                    AppState.userStats.energy,
+                    AppState.userStats.food,
+                    AppState.userStats.waste
+                ];
+                window.carbonChart.update();
             }
         }
 
@@ -894,6 +1563,10 @@
             } else {
                 assistant.classList.add('open');
                 toggle.style.display = 'none';
+                // Focus input when opened
+                setTimeout(() => {
+                    document.getElementById('ai-input-field').focus();
+                }, 300);
             }
         }
 
@@ -907,60 +1580,132 @@
             addMessage(message, 'user');
             input.value = '';
 
-            // Simulate AI thinking
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Simulate AI processing time
             setTimeout(() => {
-                addTypingIndicator();
-                
-                setTimeout(() => {
-                    removeTypingIndicator();
-                    const response = getAIResponse(message);
-                    addMessage(response, 'ai');
-                }, 2000);
-            }, 500);
+                hideTypingIndicator();
+                const response = getAIResponse(message);
+                addMessage(response.text, 'ai', response.agent);
+            }, 1500 + Math.random() * 1000);
         }
 
-        function addMessage(text, sender) {
+        function sendQuickMessage(message) {
+            document.getElementById('ai-input-field').value = message;
+            sendMessage();
+        }
+
+        function addMessage(text, sender, agent = null) {
             const messagesContainer = document.getElementById('ai-messages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${sender}`;
-            messageDiv.textContent = text;
+            
+            if (sender === 'ai' && agent) {
+                messageDiv.innerHTML = `
+                    <div class="agent-tag">${agent}</div>
+                    ${text}
+                `;
+            } else {
+                messageDiv.textContent = text;
+            }
+            
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            // Update AI status
+            if (sender === 'ai') {
+                updateAIStatus('Analyzing patterns...');
+                setTimeout(() => updateAIStatus('Online'), 3000);
+            }
         }
 
-        function addTypingIndicator() {
+        function showTypingIndicator() {
             const messagesContainer = document.getElementById('ai-messages');
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message ai typing-indicator';
-            typingDiv.innerHTML = '<div class="animate-pulse">AI is thinking...</div>';
             typingDiv.id = 'typing-indicator';
+            typingDiv.innerHTML = `
+                <div class="typing-indicator">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            `;
             messagesContainer.appendChild(typingDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+            updateAIStatus('Thinking...');
         }
 
-        function removeTypingIndicator() {
+        function hideTypingIndicator() {
             const indicator = document.getElementById('typing-indicator');
             if (indicator) indicator.remove();
+        }
+
+        function updateAIStatus(status) {
+            const statusText = document.getElementById('ai-status-text');
+            if (statusText) statusText.textContent = status;
         }
 
         function getAIResponse(message) {
             const lowerMessage = message.toLowerCase();
             
-            if (lowerMessage.includes('carbon') || lowerMessage.includes('footprint')) {
-                return aiResponses[0];
-            } else if (lowerMessage.includes('energy') || lowerMessage.includes('electricity')) {
-                return aiResponses[1];
-            } else if (lowerMessage.includes('transport') || lowerMessage.includes('travel')) {
-                return aiResponses[2];
-            } else if (lowerMessage.includes('food') || lowerMessage.includes('diet')) {
-                return aiResponses[3];
-            } else if (lowerMessage.includes('challenge')) {
-                return aiResponses[4];
-            } else if (lowerMessage.includes('recommendation') || lowerMessage.includes('suggest')) {
-                return aiResponses[5];
-            } else {
-                return aiResponses[Math.floor(Math.random() * aiResponses.length)];
+            // Determine which agent should respond based on message content
+            if (lowerMessage.includes('carbon') || lowerMessage.includes('footprint') || lowerMessage.includes('calculate')) {
+                const responses = AppState.aiResponses.carbon;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
             }
+            
+            if (lowerMessage.includes('plan') || lowerMessage.includes('strategy') || lowerMessage.includes('create')) {
+                const responses = AppState.aiResponses.plan;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            if (lowerMessage.includes('challenge') || lowerMessage.includes('compete') || lowerMessage.includes('community')) {
+                const responses = AppState.aiResponses.challenges;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            if (lowerMessage.includes('pattern') || lowerMessage.includes('analyze') || lowerMessage.includes('behavior')) {
+                const responses = AppState.aiResponses.patterns;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            if (lowerMessage.includes('energy') || lowerMessage.includes('electricity') || lowerMessage.includes('power')) {
+                const responses = AppState.aiResponses.energy;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            if (lowerMessage.includes('transport') || lowerMessage.includes('travel') || lowerMessage.includes('car') || lowerMessage.includes('bike')) {
+                const responses = AppState.aiResponses.transport;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            if (lowerMessage.includes('food') || lowerMessage.includes('diet') || lowerMessage.includes('meal') || lowerMessage.includes('eat')) {
+                const responses = AppState.aiResponses.food;
+                const agents = Object.keys(responses);
+                const selectedAgent = agents[Math.floor(Math.random() * agents.length)];
+                return { text: responses[selectedAgent], agent: selectedAgent };
+            }
+            
+            // Default general response
+            const generalResponses = AppState.aiResponses.general;
+            const selectedResponse = generalResponses[Math.floor(Math.random() * generalResponses.length)];
+            const selectedAgent = AppState.aiAgents[Math.floor(Math.random() * AppState.aiAgents.length)];
+            return { text: selectedResponse, agent: selectedAgent };
         }
 
         function handleKeyPress(event) {
@@ -969,112 +1714,259 @@
             }
         }
 
-        // Scroll Animations
-        function setupScrollAnimations() {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            document.querySelectorAll('.scroll-animate').forEach(el => {
-                observer.observe(el);
-            });
-        }
-
-        // Animate Statistics
-        function animateStats() {
-            const animateValue = (element, start, end, duration, suffix = '') => {
-                let startTimestamp = null;
-                const step = (timestamp) => {
-                    if (!startTimestamp) startTimestamp = timestamp;
-                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
-                    const current = progress * (end - start) + start;
-                    element.textContent = Math.floor(current) + suffix;
-                    if (progress < 1) {
-                        window.requestAnimationFrame(step);
-                    }
-                };
-                window.requestAnimationFrame(step);
+        // Contact Form Handler
+        function handleContact(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(event.target);
+            const contactData = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message'),
+                timestamp: new Date().toISOString()
             };
 
-            // Animate stats when they come into view
-            const statsObserver = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const element = entry.target;
-                        const finalValue = parseFloat(element.textContent);
-                        const suffix = element.textContent.includes('%') ? '%' : '';
-                        animateValue(element, 0, finalValue, 2000, suffix);
-                        statsObserver.unobserve(element);
-                    }
-                });
-            });
+            // Simulate form submission
+            const submitBtn = event.target.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
 
-            document.querySelectorAll('.stat-number').forEach(stat => {
-                statsObserver.observe(stat);
-            });
+            setTimeout(() => {
+                showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                event.target.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                
+                // Store contact data locally (in real app, would send to server)
+                const contacts = JSON.parse(localStorage.getItem('ecoContacts') || '[]');
+                contacts.push(contactData);
+                localStorage.setItem('ecoContacts', JSON.stringify(contacts));
+                
+            }, 2000);
         }
 
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-
-        // Update navbar on scroll
-        window.addEventListener('scroll', () => {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
-            } else {
-                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-            }
-        });
-
-        // Simulated real-time updates
-        setInterval(() => {
-            const totalCarbon = document.getElementById('total-carbon');
-            const currentValue = parseFloat(totalCarbon.textContent);
-            const newValue = (currentValue - 0.01).toFixed(1);
-            if (newValue > 0) {
-                totalCarbon.textContent = newValue;
-            }
-
-            const points = document.getElementById('points');
-            const currentPoints = parseInt(points.textContent.replace(',', ''));
-            points.textContent = (currentPoints + Math.floor(Math.random() * 10)).toLocaleString();
-        }, 10000);
-
-        // Add some demo interactions
-        document.addEventListener('click', (e) => {
-            if (e.target.classList.contains('stat-card')) {
-                e.target.style.transform = 'scale(1.05)';
+        // Notification System
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 100px;
+                right: 2rem;
+                background: ${type === 'success' ? 'linear-gradient(135deg, var(--primary), #059669)' : 
+                             type === 'error' ? 'linear-gradient(135deg, #ef4444, #dc2626)' : 
+                             'linear-gradient(135deg, var(--secondary), var(--accent))'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                z-index: 10000;
+                transform: translateX(400px);
+                transition: transform 0.3s ease;
+                max-width: 300px;
+                font-weight: 500;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Slide in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Slide out and remove
+            setTimeout(() => {
+                notification.style.transform = 'translateX(400px)';
                 setTimeout(() => {
-                    e.target.style.transform = 'scale(1)';
-                }, 200);
-            }
-        });
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 4000);
+        }
 
-        // Auto-demo for AI assistant
-        setTimeout(() => {
-            if (Math.random() > 0.7) { // 30% chance
-                const assistant = document.getElementById('ai-assistant');
-                if (!assistant.classList.contains('open')) {
-                    addMessage("💡 Proactive Insight: Your carbon footprint decreased by 5% this week! Keep up the great work!", 'ai');
+        // Load User Data
+        function loadUserData() {
+            const savedActivities = localStorage.getItem('ecoActivities');
+            if (savedActivities) {
+                AppState.userActivities = JSON.parse(savedActivities);
+                
+                // Recalculate stats from activities
+                const stats = { transport: 0, energy: 0, food: 0, waste: 0 };
+                AppState.userActivities.forEach(activity => {
+                    stats[activity.type] += activity.co2;
+                });
+                
+                Object.keys(stats).forEach(key => {
+                    AppState.userStats[key] = parseFloat(stats[key].toFixed(2));
+                });
+                
+                AppState.userStats.totalCarbon = parseFloat((
+                    stats.transport + stats.energy + stats.food + stats.waste
+                ).toFixed(2));
+            }
+        }
+
+        // Real-time Updates
+        setInterval(() => {
+            // Simulate real-time data updates
+            if (Math.random() > 0.8) { // 20% chance every interval
+                AppState.userStats.points += Math.floor(Math.random() * 5) + 1;
+                updateStats();
+                
+                // Occasionally show proactive AI insights
+                if (Math.random() > 0.95 && !document.getElementById('ai-assistant').classList.contains('open')) {
+                    const insights = [
+                        "💡 Proactive Insight: Your carbon footprint is 12% lower than last week!",
+                        "🎯 Goal Update: You're 85% towards your monthly reduction target!",
+                        "🏆 Achievement Unlocked: Consistent Eco-Warrior (7 days streak)!",
+                        "📊 Weekly Summary: Transport emissions down 18%, energy up 5%",
+                        "🌟 Community Update: You're now ranked #" + (AppState.userStats.rank - Math.floor(Math.random() * 5))
+                    ];
+                    
+                    showNotification(insights[Math.floor(Math.random() * insights.length)], 'info');
                 }
             }
         }, 15000);
+
+        // Smooth scrolling for internal navigation
+        document.addEventListener('click', (e) => {
+            if (e.target.hash && e.target.hash.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(e.target.hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+
+        // Enhanced navbar scroll effect
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            const currentScrollY = window.scrollY;
+            
+            if (currentScrollY > 100) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+                navbar.style.boxShadow = '0 4px 20px rgba(0,0,0,0.3)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+                navbar.style.boxShadow = 'none';
+            }
+            
+            // Hide/show navbar on scroll
+            if (currentScrollY > lastScrollY && currentScrollY > 200) {
+                navbar.style.transform = 'translateY(-100%)';
+            } else {
+                navbar.style.transform = 'translateY(0)';
+            }
+            
+            lastScrollY = currentScrollY;
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey || e.metaKey) {
+                switch(e.key) {
+                    case 'h':
+                        e.preventDefault();
+                        showPage('home');
+                        break;
+                    case 'd':
+                        e.preventDefault();
+                        showPage('dashboard');
+                        break;
+                    case 't':
+                        e.preventDefault();
+                        showPage('tracker');
+                        break;
+                    case '/':
+                        e.preventDefault();
+                        toggleAI();
+                        break;
+                }
+            }
+            
+            if (e.key === 'Escape') {
+                const aiAssistant = document.getElementById('ai-assistant');
+                if (aiAssistant.classList.contains('open')) {
+                    toggleAI();
+                }
+            }
+        });
+
+        // Auto-save user preferences
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('ecoUserStats', JSON.stringify(AppState.userStats));
+            localStorage.setItem('ecoCurrentPage', AppState.currentPage);
+        });
+
+        // Load preferences on startup
+        const savedStats = localStorage.getItem('ecoUserStats');
+        if (savedStats) {
+            AppState.userStats = { ...AppState.userStats, ...JSON.parse(savedStats) };
+        }
+
+        const savedPage = localStorage.getItem('ecoCurrentPage');
+        if (savedPage && savedPage !== 'home') {
+            setTimeout(() => showPage(savedPage), 100);
+        }
+
+        // Performance monitoring
+        let performanceMetrics = {
+            pageLoads: 0,
+            aiInteractions: 0,
+            activitiesLogged: 0
+        };
+
+        // Track usage
+        const originalAddMessage = addMessage;
+        addMessage = function(...args) {
+            performanceMetrics.aiInteractions++;
+            return originalAddMessage.apply(this, args);
+        };
+
+        const originalAddActivity = addActivity;
+        addActivity = function(...args) {
+            performanceMetrics.activitiesLogged++;
+            return originalAddActivity.apply(this, args);
+        };
+
+        // Welcome message with random sustainability tip
+        setTimeout(() => {
+            const tips = [
+                "🌱 Tip: Every small action counts! Even reducing shower time by 2 minutes saves 10 gallons of water daily.",
+                "💡 Did you know? LED bulbs use 75% less energy and last 25 times longer than incandescent bulbs!",
+                "🚲 Fun fact: Biking just 10 miles a week can save 500 pounds of CO2 annually!",
+                "♻️ Quick win: Recycling one aluminum can saves enough energy to power a TV for 3 hours!",
+                "🌿 Green tip: Indoor plants not only purify air but can reduce energy costs by 2-8%!"
+            ];
+            
+            if (Math.random() > 0.7) {
+                showNotification(tips[Math.floor(Math.random() * tips.length)], 'info');
+            }
+        }, 3000);
+
+        // Initialize demo data for new users
+        if (AppState.userActivities.length === 0) {
+            // Add some sample activities for demo purposes
+            const sampleActivities = [
+                { type: 'transport', description: 'Bike to work', amount: 15, date: new Date().toLocaleDateString() },
+                { type: 'energy', description: 'Used AC for 6 hours', amount: 12, date: new Date().toLocaleDateString() },
+                { type: 'food', description: 'Plant-based lunch', amount: 0.5, date: new Date().toLocaleDateString() }
+            ];
+            
+            setTimeout(() => {
+                if (AppState.userActivities.length === 0 && AppState.currentPage === 'tracker') {
+                    showNotification('💡 Try adding your daily activities to track your carbon footprint!', 'info');
+                }
+            }, 2000);
+        }
+
+        console.log('🌱 EcoTracker initialized successfully!');
+        console.log('📊 Performance metrics will be tracked for optimization');
+        console.log('🤖 AI agents are ready for sustainable conversations');
     </script>
 </body>
 </html>
